@@ -1,12 +1,6 @@
-﻿using CorseProject.Forms;
+﻿using CorseProject.DB;
+using CorseProject.Forms;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CorseProject
@@ -16,7 +10,7 @@ namespace CorseProject
         public AuthorizationForm()
         {
             InitializeComponent();
-            
+
         }
 
         private void bAuthorize_Click(object sender, EventArgs e)

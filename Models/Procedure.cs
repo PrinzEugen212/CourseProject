@@ -1,10 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CorseProject.Models
+﻿namespace CorseProject.Models
 {
     public class Procedure
     {
+        public string Name { get; set; }
+
+        public double Cost { get; set; }
+
+        public Procedure(string name, double cost) 
+        {
+            Name = name;
+            Cost = cost;            
+        }
     }
 }

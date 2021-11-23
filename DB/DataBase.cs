@@ -1,10 +1,10 @@
 ﻿using CorseProject.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
-using System.Text;
 
-namespace CorseProject
+namespace CorseProject.DB
 {
     public static class DataBase
     {
@@ -27,20 +27,42 @@ namespace CorseProject
                 sqlConnection.Close();
             }
         }
-        public static void AddVisit(Visit visit)
+        public static void AddVisit(Visit visit, List<Disease> diseases, List<Procedure> procedures)
         {
-            string sqlExpression = "Insert Into Visits (IDVisit, IDEmployee, Date, Diagnosis, Assigment) values(@idVisit, @idEmployee, @date, @diagnosis, @assigment)";
+            string sqlExpression = "Insert Into Visits (IDAnimal, IDEmployee, Date) values(@idAnimal, @idEmployee, @date) SELECT scope_identity()";
+            int id = 0;
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 sqlConnection.Open();
                 SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
-                sqlCommand.Parameters.Add(new SqlParameter("@idVisit", visit.IDAnimal));
+                sqlCommand.Parameters.Add(new SqlParameter("@idAnimal", visit.IDAnimal));
                 sqlCommand.Parameters.Add(new SqlParameter("@idEmployee", visit.IDEmployee));
                 sqlCommand.Parameters.Add(new SqlParameter("@date", visit.Date));
-                sqlCommand.Parameters.Add(new SqlParameter("@diagnosis", visit.Diagnosis));
-                sqlCommand.Parameters.Add(new SqlParameter("@assigment", visit.Assigment));
-                sqlCommand.ExecuteNonQuery();
-                sqlConnection.Close();
+                id = Convert.ToInt32(sqlCommand.ExecuteScalar());
+            }
+            sqlExpression = "Insert Into Diagnosis (IDVisit, IDDisease) values(@id, (Select ID from Diseases where Name = @name))";
+            foreach (var disease in diseases)
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+                    sqlCommand.Parameters.Add(new SqlParameter("@id", id));
+                    sqlCommand.Parameters.Add(new SqlParameter("@name", disease.Name));
+                    sqlCommand.ExecuteNonQuery();
+                }
+            }
+            sqlExpression = "Insert Into PerformedProcedures (IDVisit, IDProcedure) values(@id, (Select ID from ProceduresList where Name = @name))";
+            foreach (var procedure in procedures)
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+                {
+                    sqlConnection.Open();
+                    SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+                    sqlCommand.Parameters.Add(new SqlParameter("@id", id));
+                    sqlCommand.Parameters.Add(new SqlParameter("@name", procedure.Name));
+                    sqlCommand.ExecuteNonQuery();
+                }
             }
         }
         public static void AddClient(Client client)
@@ -56,6 +78,47 @@ namespace CorseProject
                 sqlCommand.ExecuteNonQuery();
                 sqlConnection.Close();
             }
+        }
+        public static void AddDisease(Disease disease)
+        {
+            string sqlExpression = "Insert Into Diseases (Name) values(@name)";
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+                sqlCommand.Parameters.Add(new SqlParameter("@name", disease.Name));
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
+        }
+        public static void AddProcedure(Procedure procedure)
+        {
+            string sqlExpression = "Insert Into ProceduresList (Name,Cost) values(@name,@cost)";
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+                sqlCommand.Parameters.Add(new SqlParameter("@name", procedure.Name));
+                sqlCommand.Parameters.Add(new SqlParameter("@cost", procedure.Cost));
+                sqlCommand.ExecuteNonQuery();
+                sqlConnection.Close();
+            }
+        }
+        public static DataSet GetTable(string tableName)
+        {
+            string sqlExpression = $"Select * From @table";
+            DataSet dataSet;
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+                sqlCommand.Parameters.Add(new SqlParameter("@table", tableName));
+                SqlDataAdapter adapter = new SqlDataAdapter(sqlExpression, sqlConnection);
+                dataSet = new DataSet();
+                adapter.Fill(dataSet);
+                sqlConnection.Close();
+            }
+            return dataSet;
         }
         public static User GetUser(string login)
         {
@@ -101,6 +164,7 @@ namespace CorseProject
             {
                 sqlConnection.Open();
                 SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+
                 SqlDataReader reader = sqlCommand.ExecuteReader();
                 while (reader.Read())
                 {
@@ -108,6 +172,63 @@ namespace CorseProject
                 }
             }
             return clients;
+        }
+        public static List<Disease> GetDiseases()
+        {
+            string sqlExpression = "SELECT * from Diseases";
+            List<Disease> diseases = new List<Disease>();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                while (reader.Read())
+                {
+                    diseases.Add(new Disease((string)reader["Name"]));
+                }
+            }
+            return diseases;
+        }
+
+        public static List<Procedure> GetProcedures()
+        {
+            string sqlExpression = "SELECT * from ProceduresList";
+            List<Procedure> procedures = new List<Procedure>();
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                while (reader.Read())
+                {
+                    procedures.Add(new Procedure((string)reader["Name"], (double)reader["Cost"]));
+                }
+            }
+            return procedures;
+        }
+        public static int GetEmployeeID(string name)
+        {
+            string sqlExpression = "SELECT ID from Employees where Name=@name";
+            int id = -1;
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                sqlConnection.Open();
+                SqlCommand sqlCommand = new SqlCommand(sqlExpression, sqlConnection);
+                sqlCommand.Parameters.Add(new SqlParameter("@name", name));
+
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+                if (reader.Read())
+                {
+                    id = (int)reader[0];
+                }
+            }
+            if (id == -1)
+            {
+                throw new Exception("Пользователь не найден");
+            }
+            return id;
         }
     }
 }

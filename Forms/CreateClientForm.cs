@@ -1,10 +1,6 @@
-﻿using CorseProject.Models;
+﻿using CorseProject.DB;
+using CorseProject.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace CorseProject.Forms
@@ -20,6 +16,11 @@ namespace CorseProject.Forms
         {
             Client client = new Client(tbName.Text, tbPhone.Text, dtpDate.Value);
             DataBase.AddClient(client);
+            Close();
+        }
+
+        private void bCancel_Click(object sender, EventArgs e)
+        {
             Close();
         }
     }

@@ -72,7 +72,10 @@ namespace CorseProject
             this.Controls.Add(this.tbPassword);
             this.Controls.Add(this.bAuthorize);
             this.Controls.Add(this.tbLogin);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "AuthorizationForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Авторизация";
             this.ResumeLayout(false);
             this.PerformLayout();

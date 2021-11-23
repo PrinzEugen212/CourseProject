@@ -1,25 +1,23 @@
-﻿using CorseProject.Models;
+﻿using CorseProject.DB;
+using CorseProject.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace CorseProject.Forms
 {
     public partial class CreateAnimalForm : Form
     {
-        string photo = null;
+        private string photo = null;
+        private string[] animalGenders = new string[] { "М", "Ж" };
         public CreateAnimalForm()
         {
             InitializeComponent();
+            cbGender.Items.AddRange(animalGenders);
         }
 
         private void bAdd_Click(object sender, EventArgs e)
         {
-            Animal animal = new Animal(1, tbName.Text, tbGender.Text, tbType.Text, tbBreed.Text, Convert.ToDouble(tbAge.Text), photo);
+            Animal animal = new Animal(1, tbName.Text, cbGender.SelectedItem.ToString(), tbType.Text, tbBreed.Text, Convert.ToDouble(tbAge.Text), photo);
             DataBase.AddAnimal(animal);
             Close();
         }
@@ -29,6 +27,11 @@ namespace CorseProject.Forms
             if (openPhotoDialog.ShowDialog() == DialogResult.Cancel)
                 return;
             photo = openPhotoDialog.FileName;
+        }
+
+        private void bCancelClick(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
