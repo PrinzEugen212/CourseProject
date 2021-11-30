@@ -1,5 +1,6 @@
 ﻿using CorseProject.DB;
 using CorseProject.Forms;
+using CorseProject.Models;
 using System;
 using System.Windows.Forms;
 
@@ -10,17 +11,18 @@ namespace CorseProject
         public AuthorizationForm()
         {
             InitializeComponent();
-
+            tbLogin.Text = "admin";
+            tbPassword.Text = "admin";
         }
 
         private void bAuthorize_Click(object sender, EventArgs e)
         {
             string login = tbLogin.Text;
-            string password = tbLogin.Text;
-            User user = DataBase.GetUser(login);
-            if (user.Password == password)
+            string password = tbPassword.Text;
+            Employee employee = DataBase.GetEmployee(login);
+            if (employee.Password == password)
             {
-                MainForm mainForm = new MainForm(user);
+                MainForm mainForm = new MainForm(employee);
                 this.Visible = false;
                 mainForm.Show();
             }
@@ -28,8 +30,6 @@ namespace CorseProject
 
         private void tbClick(object sender, EventArgs e)
         {
-            tbLogin.Text = "admin";
-            tbPassword.Text = "admin";
             //TextBox tb = (TextBox)sender;
             //tb.Text = string.Empty;
         }

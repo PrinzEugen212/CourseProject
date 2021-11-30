@@ -151,9 +151,9 @@ namespace CorseProject.Forms
             this.label3.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label3.Location = new System.Drawing.Point(4, 76);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(65, 23);
+            this.label3.Size = new System.Drawing.Size(72, 23);
             this.label3.TabIndex = 12;
-            this.label3.Text = "Клиент";
+            this.label3.Text = "Клиент*";
             // 
             // label4
             // 
@@ -161,9 +161,9 @@ namespace CorseProject.Forms
             this.label4.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label4.Location = new System.Drawing.Point(4, 110);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(80, 23);
+            this.label4.Size = new System.Drawing.Size(87, 23);
             this.label4.TabIndex = 13;
-            this.label4.Text = "Питомец";
+            this.label4.Text = "Питомец*";
             // 
             // label5
             // 
@@ -259,6 +259,7 @@ namespace CorseProject.Forms
             this.lbDiagnosis.Name = "lbDiagnosis";
             this.lbDiagnosis.Size = new System.Drawing.Size(225, 124);
             this.lbDiagnosis.TabIndex = 23;
+            this.lbDiagnosis.DoubleClick += new System.EventHandler(this.lb_DoubleClick);
             // 
             // lbAssignment
             // 
@@ -268,12 +269,13 @@ namespace CorseProject.Forms
             this.lbAssignment.Name = "lbAssignment";
             this.lbAssignment.Size = new System.Drawing.Size(225, 124);
             this.lbAssignment.TabIndex = 24;
+            this.lbAssignment.DoubleClick += new System.EventHandler(this.lb_DoubleClick);
             // 
             // AddVisitForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(482, 561);
+            this.ClientSize = new System.Drawing.Size(482, 553);
             this.Controls.Add(this.lbAssignment);
             this.Controls.Add(this.lbDiagnosis);
             this.Controls.Add(this.bCreateAssignment);

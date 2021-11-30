@@ -9,28 +9,35 @@ using System.Windows.Forms;
 
 namespace CorseProject.Forms
 {
-    public partial class CreateDiagnosisForm : Form
+    public partial class CreateAssignmentForm : Form
     {
-        public CreateDiagnosisForm()
+        public CreateAssignmentForm()
         {
             InitializeComponent();
         }
 
         private void bAdd_Click(object sender, EventArgs e)
         {
-            if (tbDiagnosis.Text != string.Empty)
+            if (AreFieldsFilledCorrectly())
             {
-                DataBase.AddDisease(new Models.Disease(tbDiagnosis.Text));
+                DataBase.AddProcedure(new Models.Procedure(tbName.Text));
+                DialogResult = DialogResult.OK;
                 Close();
             }
-            else
+        }
+        private bool AreFieldsFilledCorrectly()
+        {
+            if (tbName.Text == string.Empty)
             {
-                MessageBox.Show("Напишите диагноз, который вы хотите добавить");
+                MessageBox.Show("Заполните название");
+                return false;
             }
+            return true;
         }
 
         private void bCancel_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             Close();
         }
     }

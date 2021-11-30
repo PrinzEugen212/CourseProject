@@ -2,6 +2,7 @@
 {
     public class Animal
     {
+        public int? ID { get; set; }
         public int ClientID { get; private set; }
         public string Name { get; private set; }
         public string Gender { get; private set; }

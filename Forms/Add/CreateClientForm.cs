@@ -16,11 +16,13 @@ namespace CorseProject.Forms
         {
             Client client = new Client(tbName.Text, tbPhone.Text, dtpDate.Value);
             DataBase.AddClient(client);
+            DialogResult = DialogResult.OK;
             Close();
         }
 
         private void bCancel_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel; 
             Close();
         }
     }

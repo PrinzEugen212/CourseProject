@@ -11,6 +11,7 @@ namespace CorseProject.Forms
     {
         private List<Disease> diseases;
         private List<Procedure> procedures;
+        private List<Client> clients;
         public AddVisitForm(string userName)
         {
             InitializeComponent();
@@ -32,7 +33,8 @@ namespace CorseProject.Forms
         public void UpdateClientsList()
         {
             cbClients.Items.Clear();
-            cbClients.Items.AddRange(DataBase.GetClients().ToArray());
+            clients = DataBase.GetClients();
+            cbClients.Items.AddRange(clients.Select(e => e.FullName).ToArray());
         }
         public void UpdateDiseasesList()
         {
@@ -48,38 +50,47 @@ namespace CorseProject.Forms
         }
         private void bAddClick(object sender, EventArgs e)
         {
+            List<Disease> diseasesToAdd = new List<Disease>();
+            List<Procedure> proceduresToAdd = new List<Procedure>();
             int animalId = Convert.ToInt32(cbAnimals.SelectedItem.ToString().Remove(0, cbAnimals.SelectedItem.ToString().LastIndexOf(':') + 1));
             int employeeID = DataBase.GetEmployeeID(lUserName.Text);
+            int idClient = clients.Where(e => e.FullName == cbClients.Text).First().ID ?? 0;
             DateTime dateTime = (dtpDate.Value + dtpTime.Value.TimeOfDay); dateTime.AddSeconds(-dateTime.Second);
-            Visit visit = new Visit(animalId, employeeID, dateTime);
+            Visit visit = new Visit(animalId, employeeID, idClient, dateTime);
             for (int i = 0; i < diseases.Count; i++)
             {
-                if (!lbDiagnosis.Items.Contains(diseases[i].Name))
+                if (lbDiagnosis.Items.Contains(diseases[i].Name))
                 {
-                    diseases.RemoveAt(i);
+                    diseasesToAdd.Add(diseases[i]);
                 }
             }
             for (int i = 0; i < procedures.Count; i++)
             {
-                if (!lbAssignment.Items.Contains(procedures[i].Name))
+                if (lbAssignment.Items.Contains(procedures[i].Name))
                 {
-                    procedures.RemoveAt(i);
+                    proceduresToAdd.Add(procedures[i]);
                 }
             }
-            DataBase.AddVisit(visit, diseases, procedures);
+            DataBase.AddVisit(visit, diseasesToAdd, proceduresToAdd);
             Close();
         }
 
         private void bAddAnimal_Click(object sender, EventArgs e)
         {
             CreateAnimalForm animalForm = new CreateAnimalForm();
-            animalForm.ShowDialog();
+            if (animalForm.ShowDialog() == DialogResult.OK)
+            {
+                UpdateLists();
+            }
         }
 
         private void bAddClient_Click(object sender, EventArgs e)
         {
             CreateClientForm clientForm = new CreateClientForm();
-            clientForm.ShowDialog();
+            if (clientForm.ShowDialog() == DialogResult.OK)
+            {
+                UpdateLists();
+            }
         }
 
         private void bAddDiagnosis_Click(object sender, EventArgs e)
@@ -116,13 +127,26 @@ namespace CorseProject.Forms
         private void bCreateDiagnosis_Click(object sender, EventArgs e)
         {
             CreateDiagnosisForm createDiagnosisForm = new CreateDiagnosisForm();
-            createDiagnosisForm.ShowDialog();
+            if (createDiagnosisForm.ShowDialog() == DialogResult.OK)
+            {
+                UpdateLists();
+            }
+
         }
 
         private void bCreateAssignment_Click(object sender, EventArgs e)
         {
             CreateAssignmentForm createAssignmentForm = new CreateAssignmentForm();
-            createAssignmentForm.ShowDialog();
+            if (createAssignmentForm.ShowDialog() == DialogResult.OK)
+            {
+                UpdateLists();
+            }
+        }
+
+        private void lb_DoubleClick(object sender, EventArgs e)
+        {
+            ListBox listBox = (ListBox)sender;
+            listBox.Items.RemoveAt(listBox.SelectedIndex);
         }
     }
 }

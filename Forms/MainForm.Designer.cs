@@ -31,6 +31,7 @@ namespace CorseProject.Forms
         {
             this.lUserName = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lEditLast = new System.Windows.Forms.Label();
             this.lAddProcedure = new System.Windows.Forms.Label();
             this.lAddEmployee = new System.Windows.Forms.Label();
             this.lAddVisit = new System.Windows.Forms.Label();
@@ -40,6 +41,7 @@ namespace CorseProject.Forms
             this.bGetVisits = new System.Windows.Forms.Button();
             this.bGetEmployees = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.bDiseases = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgwTables)).BeginInit();
             this.SuspendLayout();
@@ -58,20 +60,34 @@ namespace CorseProject.Forms
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lEditLast);
             this.groupBox1.Controls.Add(this.lAddProcedure);
             this.groupBox1.Controls.Add(this.lAddEmployee);
             this.groupBox1.Controls.Add(this.lAddVisit);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(1, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(251, 732);
+            this.groupBox1.Size = new System.Drawing.Size(300, 732);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
+            // 
+            // lEditLast
+            // 
+            this.lEditLast.AutoSize = true;
+            this.lEditLast.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lEditLast.Location = new System.Drawing.Point(6, 67);
+            this.lEditLast.Margin = new System.Windows.Forms.Padding(3);
+            this.lEditLast.Name = "lEditLast";
+            this.lEditLast.Padding = new System.Windows.Forms.Padding(5);
+            this.lEditLast.Size = new System.Drawing.Size(283, 38);
+            this.lEditLast.TabIndex = 3;
+            this.lEditLast.Text = "Изменить последний приём";
+            this.lEditLast.Click += new System.EventHandler(this.lEditLast_Click);
             // 
             // lAddProcedure
             // 
             this.lAddProcedure.AutoSize = true;
             this.lAddProcedure.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lAddProcedure.Location = new System.Drawing.Point(6, 105);
+            this.lAddProcedure.Location = new System.Drawing.Point(6, 146);
             this.lAddProcedure.Name = "lAddProcedure";
             this.lAddProcedure.Padding = new System.Windows.Forms.Padding(5);
             this.lAddProcedure.Size = new System.Drawing.Size(217, 38);
@@ -84,12 +100,13 @@ namespace CorseProject.Forms
             // 
             this.lAddEmployee.AutoSize = true;
             this.lAddEmployee.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lAddEmployee.Location = new System.Drawing.Point(6, 67);
+            this.lAddEmployee.Location = new System.Drawing.Point(6, 108);
             this.lAddEmployee.Name = "lAddEmployee";
             this.lAddEmployee.Padding = new System.Windows.Forms.Padding(5);
             this.lAddEmployee.Size = new System.Drawing.Size(222, 38);
             this.lAddEmployee.TabIndex = 1;
             this.lAddEmployee.Text = "Добавить сотрудника";
+            this.lAddEmployee.Click += new System.EventHandler(this.lAddEmployee_Click);
             this.lAddEmployee.MouseLeave += new System.EventHandler(this.lMouseLeave);
             this.lAddEmployee.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lMouseMove);
             // 
@@ -97,7 +114,7 @@ namespace CorseProject.Forms
             // 
             this.lAddVisit.AutoSize = true;
             this.lAddVisit.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lAddVisit.Location = new System.Drawing.Point(8, 26);
+            this.lAddVisit.Location = new System.Drawing.Point(6, 27);
             this.lAddVisit.Margin = new System.Windows.Forms.Padding(3);
             this.lAddVisit.Name = "lAddVisit";
             this.lAddVisit.Padding = new System.Windows.Forms.Padding(5);
@@ -108,19 +125,20 @@ namespace CorseProject.Forms
             this.lAddVisit.MouseLeave += new System.EventHandler(this.lMouseLeave);
             this.lAddVisit.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lMouseMove);
             // 
-            // dataGridView1
+            // dgwTables
             // 
             this.dgwTables.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgwTables.Location = new System.Drawing.Point(286, 38);
-            this.dgwTables.Name = "dataGridView1";
+            this.dgwTables.Location = new System.Drawing.Point(301, 38);
+            this.dgwTables.Name = "dgwTables";
             this.dgwTables.RowHeadersWidth = 51;
             this.dgwTables.RowTemplate.Height = 29;
-            this.dgwTables.Size = new System.Drawing.Size(1135, 637);
+            this.dgwTables.Size = new System.Drawing.Size(1120, 637);
             this.dgwTables.TabIndex = 2;
+            this.dgwTables.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwTables_CellContentDoubleClick);
             // 
             // bGetClients
             // 
-            this.bGetClients.Location = new System.Drawing.Point(286, 682);
+            this.bGetClients.Location = new System.Drawing.Point(301, 681);
             this.bGetClients.Name = "bGetClients";
             this.bGetClients.Size = new System.Drawing.Size(147, 29);
             this.bGetClients.TabIndex = 3;
@@ -131,7 +149,7 @@ namespace CorseProject.Forms
             // 
             // bGetAnimals
             // 
-            this.bGetAnimals.Location = new System.Drawing.Point(439, 681);
+            this.bGetAnimals.Location = new System.Drawing.Point(454, 680);
             this.bGetAnimals.Name = "bGetAnimals";
             this.bGetAnimals.Size = new System.Drawing.Size(147, 29);
             this.bGetAnimals.TabIndex = 4;
@@ -142,7 +160,7 @@ namespace CorseProject.Forms
             // 
             // bGetVisits
             // 
-            this.bGetVisits.Location = new System.Drawing.Point(592, 681);
+            this.bGetVisits.Location = new System.Drawing.Point(607, 680);
             this.bGetVisits.Name = "bGetVisits";
             this.bGetVisits.Size = new System.Drawing.Size(147, 29);
             this.bGetVisits.TabIndex = 5;
@@ -153,7 +171,7 @@ namespace CorseProject.Forms
             // 
             // bGetEmployees
             // 
-            this.bGetEmployees.Location = new System.Drawing.Point(745, 681);
+            this.bGetEmployees.Location = new System.Drawing.Point(760, 680);
             this.bGetEmployees.Name = "bGetEmployees";
             this.bGetEmployees.Size = new System.Drawing.Size(147, 29);
             this.bGetEmployees.TabIndex = 6;
@@ -164,7 +182,7 @@ namespace CorseProject.Forms
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(898, 682);
+            this.button1.Location = new System.Drawing.Point(913, 681);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(147, 29);
             this.button1.TabIndex = 7;
@@ -173,11 +191,23 @@ namespace CorseProject.Forms
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.GetTableByButtonTag);
             // 
+            // bDiseases
+            // 
+            this.bDiseases.Location = new System.Drawing.Point(1066, 680);
+            this.bDiseases.Name = "bDiseases";
+            this.bDiseases.Size = new System.Drawing.Size(147, 29);
+            this.bDiseases.TabIndex = 8;
+            this.bDiseases.Tag = "Diseases";
+            this.bDiseases.Text = "Болезни";
+            this.bDiseases.UseVisualStyleBackColor = true;
+            this.bDiseases.Click += new System.EventHandler(this.GetTableByButtonTag);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1487, 756);
+            this.Controls.Add(this.bDiseases);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.bGetEmployees);
             this.Controls.Add(this.bGetVisits);
@@ -209,5 +239,7 @@ namespace CorseProject.Forms
         private System.Windows.Forms.Button bGetVisits;
         private System.Windows.Forms.Button bGetEmployees;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button bDiseases;
+        private System.Windows.Forms.Label lEditLast;
     }
 }

@@ -32,8 +32,6 @@
             this.lBirthDate = new System.Windows.Forms.Label();
             this.bCancel = new System.Windows.Forms.Button();
             this.bAdd = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.tbCost = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // tbName
@@ -41,7 +39,7 @@
             this.tbName.Location = new System.Drawing.Point(95, 9);
             this.tbName.Multiline = true;
             this.tbName.Name = "tbName";
-            this.tbName.Size = new System.Drawing.Size(275, 61);
+            this.tbName.Size = new System.Drawing.Size(275, 99);
             this.tbName.TabIndex = 32;
             // 
             // lBirthDate
@@ -73,31 +71,11 @@
             this.bAdd.UseVisualStyleBackColor = true;
             this.bAdd.Click += new System.EventHandler(this.bAdd_Click);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label1.Location = new System.Drawing.Point(6, 80);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(83, 20);
-            this.label1.TabIndex = 33;
-            this.label1.Text = "Стоимость";
-            // 
-            // tbCost
-            // 
-            this.tbCost.BackColor = System.Drawing.SystemColors.Window;
-            this.tbCost.Location = new System.Drawing.Point(95, 77);
-            this.tbCost.Name = "tbCost";
-            this.tbCost.Size = new System.Drawing.Size(275, 27);
-            this.tbCost.TabIndex = 34;
-            // 
             // CreateAssignmentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(382, 153);
-            this.Controls.Add(this.tbCost);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.tbName);
             this.Controls.Add(this.lBirthDate);
             this.Controls.Add(this.bCancel);
@@ -115,7 +93,5 @@
         private System.Windows.Forms.Label lBirthDate;
         private System.Windows.Forms.Button bCancel;
         private System.Windows.Forms.Button bAdd;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox tbCost;
     }
 }

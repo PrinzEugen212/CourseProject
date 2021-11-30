@@ -1,4 +1,5 @@
 ﻿using CorseProject.DB;
+using CorseProject.Models;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -7,10 +8,11 @@ namespace CorseProject.Forms
 {
     public partial class MainForm : Form
     {
-        private User user;
-        public MainForm(User user)
+        private Employee employee;
+        string tag;
+        public MainForm(Employee user)
         {
-            this.user = user;
+            this.employee = user;
             InitializeComponent();
             lUserName.Text = user.Name;
         }
@@ -22,7 +24,7 @@ namespace CorseProject.Forms
 
         private void lAddVisitClick(object sender, EventArgs e)
         {
-            AddVisitForm addVisitForm = new AddVisitForm(user.Name);
+            AddVisitForm addVisitForm = new AddVisitForm(employee.Name);
             addVisitForm.Show();
         }
 
@@ -41,8 +43,41 @@ namespace CorseProject.Forms
         private void GetTableByButtonTag(object sender, EventArgs e)
         {
             Button button = (Button)sender;
-            dgwTables.DataSource = DataBase.GetTable(button.Tag.ToString()).Tables[0];
-            dgwTables.Columns["Id"].ReadOnly = true;
+            dgwTables.DataSource = DataBase.GetTableByName(button.Tag.ToString()).Tables[0];
+            tag = button.Tag.ToString();
+            for (int i = 0; i < dgwTables.Columns.Count; i++)
+            {
+                dgwTables.Columns[i].ReadOnly = true;
+            }
+        }
+
+        private void lAddEmployee_Click(object sender, EventArgs e)
+        {
+            AddEmployeeForm addEmployeeForm = new AddEmployeeForm();
+            addEmployeeForm.Show();
+        }
+
+        private void lEditLast_Click(object sender, EventArgs e)
+        {
+            EditVisitForm addVisitForm = new EditVisitForm(employee.Name, DataBase.GetLastVisit(employee.ID ?? 0));
+            addVisitForm.Show();
+        }
+
+        private void dgwTables_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(tag == null)
+            {
+                return;
+            }
+            switch (tag)
+            {
+                case "Clients": return;
+                case "Animals": return;
+                case "Visits": return;
+                case "Employees": return;
+                case "ProceduresList": return;
+                case "Diseases": return;
+            }
         }
     }
 }

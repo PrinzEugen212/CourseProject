@@ -2,14 +2,12 @@
 {
     public class Procedure
     {
+        public int? ID { get; set; }
         public string Name { get; set; }
 
-        public double Cost { get; set; }
-
-        public Procedure(string name, double cost) 
+        public Procedure(string name) 
         {
-            Name = name;
-            Cost = cost;            
+            Name = name;          
         }
     }
 }
